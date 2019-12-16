@@ -1,19 +1,76 @@
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags blogtags %}
 
 {% block content %}
-
     <div class="intro">{{ blogpages.intro|richtext }}</div>
-    {% for post in blogpages %}
-        {% with post=post.specific %}
-        <h2><a href="{% pageurl post %}">{{ post.title }}</a></h2>
 
-         {% with post.main_image as main_image %}
-            {% if main_image %}{% image main_image fill-160x100 %}{% endif %}
-        {% endwith %}
-        <br>
-        {{ post.specific.intro }}
-        {{ post.specific.body|richtext }}
-        {% endwith %}
-    {% endfor %}
+    <section class="featured-posts no-padding-top">
+        <div class="container">
+            {% for post in blogpages %}
+                {% with post=post.specific %}
+                    <!-- Post para sacar modulo se utiliza divisible, -->
+                    {% if forloop.counter|divisibleby:2 %}
+                        <div class="row d-flex align-items-stretch">
+                            <div class="text col-lg-7">
+                                <div class="text-inner d-flex align-items-center">
+                                    <div class="content">
+                                        <header class="post-header">
+                                            <div class="category"><a href="#">Business</a><a href="#">Technology</a>
+                                            </div>
+                                            <a href="{% pageurl post %}">
+                                                <h2 class="h4">{{ post.title }}</h2></a>
+                                        </header>
+                                        <p>{{ post.specific.intro }}</p>
+                                        <footer class="post-footer d-flex align-items-center"><a href="#"
+                                                                                                 class="author d-flex align-items-center flex-wrap">
+                                            <div class="avatar"><img src="{% user_image post.owner %}" alt="..." class="img-fluid"></div>
+                                            <div class="title"><span>{{ post.owner }}</span></div>
+                                        </a>
+                                            <div class="date"><i class="icon-clock"></i> {{ post.date }}</div>
+                                            <div class="comments"><i class="icon-comment"></i>12</div>
+                                        </footer>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="image col-lg-5"> {% with post.main_image as main_image %}
+                                {% if main_image %}{% image main_image width-640 as image %}{% endif %}
+                                <img src="{{ image.url }}">
+                            {% endwith %}</div>
+                            </div>
+                    {% else %}
+                        <!-- Post        -->
+                        <div class="row d-flex align-items-stretch">
+                            <div class="image col-lg-5">
+                                {% with post.main_image as main_image %}
+                                {% if main_image %}{% image main_image width-640 as image %}{% endif %}
+                                <img src="{{ image.url }}">
+                            {% endwith %}
+                            </div>
+                            <div class="text col-lg-7">
+                                <div class="text-inner d-flex align-items-center">
+                                    <div class="content">
+                                        <header class="post-header">
+                                            <div class="category"><a href="#">Business</a><a href="#">Technology</a>
+                                            </div>
+                                            <a href="{% pageurl post %}">
+                                                <h2 class="h4">{{ post.title }}</h2></a>
+                                        </header>
+                                        <p>{{ post.specific.intro }}</p>
+                                        <footer class="post-footer d-flex align-items-center"><a href="#" class="author d-flex align-items-center flex-wrap">
+                                            <div class="avatar"><img src="{% user_image post.owner %}" alt="..." class="img-fluid"></div>
+                                            <div class="title"><span>{{ post.owner }}</span></div>
+                                        </a>
+                                            <div class="date"><i class="icon-clock"></i> {{ post.date }}</div>
+                                            <div class="comments"><i class="icon-comment"></i>12</div>
+                                        </footer>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <!-- Post
+              {% endwith %}-->
+            {% endfor %}
+    </section>
 
 {% endblock %}
