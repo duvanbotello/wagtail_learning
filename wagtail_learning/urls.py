@@ -1,3 +1,4 @@
+from django.urls import path
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
@@ -10,7 +11,7 @@ from search import views as search_views
 
 urlpatterns = [
     url(r'^django-admin/', admin.site.urls),
-
+    path('', include('user.urls')),
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
 

@@ -80,6 +80,15 @@
               </li>
             </ul>
             <div class="navbar-text"><a href="#" class="search-btn"><i class="icon-search-1"></i></a></div>
+            {% if request.user.is_active %}
+           <ul class="langs navbar-text"><a class="active">{{ request.user.get_full_name }}</a><span>
+           </span><a href="{% url 'logout' %}">Logout</a></ul>
+
+            {% else %}
+            <ul class="langs navbar-text"><a href="{% url 'register' %}" class="active">Register</a><span>
+                     </span><a href="{% url 'login' %}">Login</a></ul>
+            {% endif %}
+          </div>
           </div>
         </div>
       </nav>
